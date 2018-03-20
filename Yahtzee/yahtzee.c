@@ -66,6 +66,7 @@ typedef struct
 // Here are the function prototypes. These just say, "hey, first function(s),
 // here are some routines that are defined later in the file, in case you
 // need them."
+void PrintGameDiceValues(const FiveDiceType turns[], unsigned int nTurns, int gameNum);
 void CalculateTotals(ScoreResultsType * results);
 
 
@@ -92,8 +93,12 @@ int main()
     // Each player has a pointer to the function s/he'll use to decide
     // what to do with the dice rolls.
     players[0].playFn = &PlayTemplate;
-    //players[1].playFn = &playEmily;
-    //players[2].playFn = &playSam;
+
+    printf("\n");
+    printf(" ----------------------------------------------------\n");
+    printf("|                   YAHTZEE SIMULATOR                |\n");
+    printf(" ----------------------------------------------------\n");
+    printf("\n");
 
     // One game isn't much of a sample size to test whose player is better,
     // so this loop allows us to play multiple games
@@ -111,9 +116,13 @@ int main()
             thirteenTurns[tt].d5 = GetDiceRoll();
         }
 
+        PrintGameDiceValues(thirteenTurns, 13, gg);
+
         // Each player takes a turn
         for (int pp=0; pp<NPLAYERS; pp++)
         {
+            InitializeGameResults(&gameResults);
+
             // Call the player's play function using the function pointer
             (players[pp].playFn)(thirteenTurns, &gameResults);
 
@@ -125,21 +134,24 @@ int main()
 
             // Verify that the results are legal values
             ScoringErrorType err = ScoreResultsAreValid(&gameResults);
-            if (ERR_NONE != err)
-            {
-                printf("   Player %d's scores are invalid in game %d.\n", pp, gg);
-                printf("   Error code: %d\n", err);
-            }
 
             // Store the player's score.
             // If no errors were found, then the score is the total from
             // the results structure. If there was an error, then just
             // score 0 for this round.
             players[pp].scores[gg] = (ERR_NONE == err) ? gameResults.total : 0;
+
+            PrintResults(&gameResults, pp);
+
+            if (ERR_NONE != err)
+            {
+                printf("\n");
+                printf("   Player %d's scores are invalid in game %d.\n", pp, gg);
+                printf("   ERROR CODE: %d\n", err);
+            }
+
         }
 
-        PrintDiceValues(thirteenTurns, 13);
-        PrintResults(&gameResults);
     }
 
     return 0;
@@ -147,63 +159,26 @@ int main()
 
 
 //-----------------------------------------------------------------------------
-// SUBROUTINES
+// Private Subroutines
 //-----------------------------------------------------------------------------
 
-// GetDiceRoll
-// Inputs:  none
-// Returns: a randomly chosen integer in the range [1..6]
-unsigned int GetDiceRoll(void)
-{
-    return (rand() % 7) + 1;
-}
-
-// PrintDiceValues
-// Inputs: array of dice values
+// PrintGameDiceValues
+// Inputs: array of dice values, number of dice sets in the array, game number
 // Returns: nothing
-void PrintDiceValues(const FiveDiceType turns[], unsigned int nTurns)
+//
+// Prints a title followed by the dice values for a single game
+void PrintGameDiceValues(const FiveDiceType turns[], unsigned int nTurns, int gameNum)
 {
     printf("\n");
-    for (int i=0; i<nTurns; i++)
-    {
-        printf("Roll %d: ", i+1);
-        printf("%d ", turns[i].d1);
-        printf("%d ", turns[i].d2);
-        printf("%d ", turns[i].d3);
-        printf("%d ", turns[i].d4);
-        printf("%d\n", turns[i].d5);
-    }
+    printf("-----------------------\n");
+    printf(" GAME %d\n", gameNum);
+    printf("-----------------------\n");
+    printf("\n");
+
+    PrintDiceValues(turns, nTurns);
+
     printf("\n");
 }
-
-// PrintResults
-// Inputs: game results
-// Outputs: none
-void PrintResults(const ScoreResultsType * results)
-{
-    printf("");
-    printf("Ones:     %d\n", results->scores.ones);
-    printf("Twos:     %d\n", results->scores.twos);
-    printf("Threes:   %d\n", results->scores.threes);
-    printf("Fours:    %d\n", results->scores.fours);
-    printf("Fives:    %d\n", results->scores.fives);
-    printf("Sixes:    %d\n", results->scores.sixes);
-    printf("BONUS:    %d\n", results->upperBonus);
-    printf("SUBTOTAL  %d\n", results->upperTotalWithoutBonus + results->upperBonus);
-    printf("\n");
-    printf("Three of A Kind: %d\n", results->scores.threeOfAKind);
-    printf("Four of a Kind:  %d\n", results->scores.fourOfAKind);
-    printf("Full House:      %d\n", results->scores.fullHouse);
-    printf("Small Straight:  %d\n", results->scores.smallStraight);
-    printf("Large Straight:  %d\n", results->scores.largeStraight);
-    printf("Yahtzee:         %d\n", results->scores.yahtzee);
-    printf("Chance:          %d\n", results->scores.chance);
-    printf("SUBTOTAL:        %d\n", results->lowerTotal);
-    printf("\n");
-    printf("TOTAL:  %d\n", results->total);
-    printf("\n");
-}
-
 
 // CalculateTotals
 // Inputs: score results
@@ -218,4 +193,88 @@ void CalculateTotals(ScoreResultsType * results)
                          + pScores->yahtzee + pScores->chance;
     results->upperBonus = results->upperTotalWithoutBonus >= 63 ? 35 : 0;
     results->total = results->upperTotalWithoutBonus + results->upperBonus + results->lowerTotal;
+}
+
+//-------------------------------------------------------------
+// Public Subroutines
+//-------------------------------------------------------------
+
+// GetDiceRoll
+// Inputs:  none
+// Returns: a randomly chosen integer in the range [1..6]
+unsigned int GetDiceRoll(void)
+{
+    return (rand() % 7) + 1;
+}
+
+// PrintDiceValues
+// Inputs: array of dice values
+// Returns: nothing
+//
+// Prints the dice values for a single game
+void PrintDiceValues(const FiveDiceType turns[], unsigned int nTurns)
+{
+    for (int i=0; i<nTurns; i++)
+    {
+        printf("   Roll %d: ", i+1);
+        printf("%d ", turns[i].d1);
+        printf("%d ", turns[i].d2);
+        printf("%d ", turns[i].d3);
+        printf("%d ", turns[i].d4);
+        printf("%d\n", turns[i].d5);
+    }
+}
+
+// PrintResults
+// Inputs: game results
+// Outputs: none
+//
+// Prints the total and scorecard values for a single player
+void PrintResults(const ScoreResultsType * results, int playerNum)
+{
+    printf("PLAYER %d scored %d\n", playerNum, results->total);
+    printf("\n");
+    printf("   Ones:     %d\n", results->scores.ones);
+    printf("   Twos:     %d\n", results->scores.twos);
+    printf("   Threes:   %d\n", results->scores.threes);
+    printf("   Fours:    %d\n", results->scores.fours);
+    printf("   Fives:    %d\n", results->scores.fives);
+    printf("   Sixes:    %d\n", results->scores.sixes);
+    printf("   BONUS:    %d\n", results->upperBonus);
+    printf("   SUBTOTAL  %d\n", results->upperTotalWithoutBonus + results->upperBonus);
+    printf("\n");
+    printf("   Three of A Kind: %d\n", results->scores.threeOfAKind);
+    printf("   Four of a Kind:  %d\n", results->scores.fourOfAKind);
+    printf("   Full House:      %d\n", results->scores.fullHouse);
+    printf("   Small Straight:  %d\n", results->scores.smallStraight);
+    printf("   Large Straight:  %d\n", results->scores.largeStraight);
+    printf("   Yahtzee:         %d\n", results->scores.yahtzee);
+    printf("   Chance:          %d\n", results->scores.chance);
+    printf("   SUBTOTAL:        %d\n", results->lowerTotal);
+    printf("\n");
+}
+
+// InitializeGameResults
+// Inputs: score results structure
+// Results: none, but updates the results structure with all zeroes
+void InitializeGameResults(ScoreResultsType * results)
+{
+    ScoreAssignmentsType * pScores = &(results->scores);
+    pScores->ones = 0;
+    pScores->twos = 0;
+    pScores->threes = 0;
+    pScores->fours = 0;
+    pScores->fives = 0;
+    pScores->sixes = 0;
+    pScores->threeOfAKind = 0;
+    pScores->fourOfAKind = 0;
+    pScores->fullHouse = 0;
+    pScores->smallStraight = 0;
+    pScores->largeStraight = 0;
+    pScores->yahtzee = 0;
+    pScores->chance = 0;
+    results->upperTotalWithoutBonus = 0;
+    results->upperBonus = 0;
+    results->lowerTotal = 0;
+    results->total = 0;
 }

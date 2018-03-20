@@ -1,6 +1,6 @@
 
 #include <stdbool.h>
-#include "../Yahtzee/yahtzeeScoreChecker.h"
+#include "yahtzeeScoreChecker.h"
 
 #define MAXFAILS 10
 

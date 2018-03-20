@@ -1,3 +1,11 @@
+# Individual files
+Yahtzee/yahtzee
+YahtzeeTests/yahtzeeScoreChecker.*
+YahtzeeTests/yahtzeeScorer.*
+YahtzeeTests/yahtzeeTypes.h
+YahtzeeTests/yahtzeetests
+*.DS_Store
+
 # Prerequisites
 *.d
 

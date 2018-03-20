@@ -6,8 +6,8 @@
 //
 
 #include "tests_yahtzeeScoreChecker.h"
-#include "../Yahtzee/yahtzeeTypes.h"
-#include "../Yahtzee/yahtzeeScoreChecker.h"
+#include "yahtzeeTypes.h"
+#include "yahtzeeScoreChecker.h"
 #include "testframework.h"
 
 // Function prototypes for test subroutines

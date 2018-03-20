@@ -10,6 +10,7 @@ then
     echo "---------------------"
     echo "Building tests..."
     cd ../YahtzeeTests
+    ./copyFilesUnderTest.sh
     make
     if [ $? -eq 0 ]
     then
