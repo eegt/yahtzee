@@ -88,7 +88,7 @@ unsigned int GetDiceRoll(void)
         randIsNotInitialized = false;
     }
 
-    return (rand() % 7) + 1;
+    return ((rand() % 6) + 1);
 }
 
 // GetRankCounts
@@ -98,7 +98,7 @@ unsigned int GetDiceRoll(void)
 // Updates counts with the number of dice of each rank. For example, if
 // dice contains 2-4-5-2-1, the counts will be nOnes = 1, nTwos = 2,
 // nThrees = 0, etc.
-void GetRankCounts(FiveDiceType * pDice, DiceCountsType * counts)
+void GetRankCounts(const FiveDiceType * pDice, DiceCountsType * counts)
 {
     counts->nOnes = HowManyOfRank(pDice, 1);
     counts->nTwos = HowManyOfRank(pDice, 2);
@@ -117,7 +117,7 @@ void GetRankCounts(FiveDiceType * pDice, DiceCountsType * counts)
 // MostCommonRank
 // Inputs:  pointer to set of 5 dice
 // Returns: the rank that occurs most often in the set, or 0 if there is a tie
-unsigned int MostCommonRank(FiveDiceType * dice)
+unsigned int MostCommonRank(const FiveDiceType * dice)
 {
     DiceCountsType counts;
     GetRankCounts(dice, &counts);
@@ -187,7 +187,7 @@ unsigned int MostCommonRank(FiveDiceType * dice)
 // Inputs:  pointer to set of 5 dice
 // Returns: the number of dice having the most common rank, or 0 if there is
 //          no most common rank
-unsigned int MostCommonRankCount(FiveDiceType * dice)
+unsigned int MostCommonRankCount(const FiveDiceType * dice)
 {
     unsigned int rank = MostCommonRank(dice);
     if (rank)
