@@ -18,7 +18,7 @@ void DumbScore(ScoreResultsType * results, FiveDiceType * dice, int turnNum);
 // Returns: none, but the results structure is updated
 //
 // This is the top-level "play" function called by the competition loop.
-// Change its name to playSam or playSophia or playSophia, but don't change
+// Change its name to playSam or playSophia or playToby, but don't change
 // its input parameters.
 //
 // In this template function, the logic isn't filled in - there's just a dummy
@@ -33,7 +33,6 @@ void DumbScore(ScoreResultsType * results, FiveDiceType * dice, int turnNum);
 void PlayTemplate(const FiveDiceType * thirteenTurns, ScoreResultsType * results)
 {
     FiveDiceType thisTurn;
-    //ScoreAssignmentsType * ScoreAssignments = &(results->scores);
 
     for (int i=0; i<NTURNS; i++)
     {
