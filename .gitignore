@@ -2,6 +2,7 @@
 Yahtzee/yahtzee
 YahtzeeTests/yahtzeeScoreChecker.*
 YahtzeeTests/yahtzeeScorer.*
+YahtzeeTests/yahtzeeToolbox.*
 YahtzeeTests/yahtzeeTypes.h
 YahtzeeTests/yahtzeetests
 *.DS_Store
