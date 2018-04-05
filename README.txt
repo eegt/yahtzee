@@ -150,8 +150,9 @@ Using the Yahtzee simulator
    the file and abandon your changes is useful to know.)
    
    A tutorial in git is beyond the scope here... if you're not familiar with
-   it do some reading. Eventually you'll need to create a pull request to
-   merge your changes.
+   it do some reading. Right now you're not connected to the remote repo;
+   everything you've done is local. If you plan to submit any pull requests
+   to the remote repo, you'll need to push your branch upstream at some point.
 
 3. Okey-dokey. Now, to update your own yahtzee player, edit the file
    yahtzeePlayerMyname.c with your logic to re-roll dice and score your
