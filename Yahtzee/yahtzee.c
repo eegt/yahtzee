@@ -28,6 +28,7 @@
 #include "yahtzee.h"
 #include "yahtzeeTypes.h"
 #include "yahtzeePlayerTemplate.h"
+#include "yahtzeePlayerEmily.h"
 #include "yahtzeeScoreChecker.h"
 #include "yahtzeeToolbox.h"
 
@@ -47,7 +48,7 @@
 
 // Here are a couple of constants... from here we can easily change the number
 // of players or games later if we want to.
-#define NPLAYERS 1
+#define NPLAYERS 2
 #define NGAMES 3
 
 // Here is a structure type definition.
@@ -89,6 +90,7 @@ int main()
     // Each player has a pointer to the function s/he'll use to decide
     // what to do with the dice rolls.
     players[0].playFn = &PlayTemplate;
+    players[1].playFn = &PlayEmily;
 
     printf("\n");
     printf(" ----------------------------------------------------\n");
