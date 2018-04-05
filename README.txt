@@ -38,15 +38,18 @@ To create a player for the Yahtzee project
    In the Yahtzee subfolder, Make copies of yahtzeePlayerTemplate.c and
    yahtzeePlayerTemplate.h. Rename your copies as yahtzeePlayerAlice.c/h or
    yahtzeePlayerBob.c/h or whatever.
+   
+2. Edit the comment block at the top to reflect your changes and the date.
+   "Created by Bob based on Emily's template, 1/1/2076." Or similar.
 
-2. Rename your play function.
+3. Rename your play function.
 
    Open the two files you just created. In each, change the function name 
    PlayTemplate() to PlayAlice() or PlayBob() or PlayMyname() or whatever.
 
    Save both files.
 
-3. Update your header file.
+4. Update your header file.
 
    a. In yahtzeePlayerMyname.h, change the #ifndef and #define to use
       yahtzeePlayerMyname_h instead of yahtzeePlayerTemplate.h.
@@ -56,7 +59,7 @@ To create a player for the Yahtzee project
 
    Save both files.
 
-4. Do a quick band-aid fix to avoid a name conflict.
+5. Do a quick band-aid fix to avoid a name conflict.
 
    In yahtzeePlayerMyname.c, change the function name DumbScore() to something
    different. DumbScore2(), DumberScore(), doesn't matter.
@@ -72,7 +75,7 @@ To create a player for the Yahtzee project
 
    Save the file.
 
-5. Connect your new player to the top-level function.
+6. Connect your new player to the top-level function.
 
    a. Open the file yahtzee.c. Near the top of the file, find the #include
       statements, and #include your new header:
@@ -101,7 +104,7 @@ To create a player for the Yahtzee project
 
    d. Save this file.
 
-4. Run the build script again:
+7. Run the build script again:
 
        $ ./makeAndTest.sh
 
@@ -116,9 +119,43 @@ Using the Yahtzee simulator
 1. To run the program, type './yahtzee' at the prompt in the yahtzee/Yahtzee
    directory.
 
+2. Before you get too far into this, create a branch.
 
-2. To update your own yahtzee player, Edit the file yahtzeePlayerMyname.c with
-   your logic to re-roll dice and score your yahtzee game.
+   If you do "git branch" in the yahtzee directory right now, you should see
+   only master, with a * showing it's the active branch.
+   
+   Type "git branch bob" or "git branch susan" or whatever to create a branch
+   for your changes.
+   
+   Type "git checkout bob" (or susan, or whatever) to switch to the branch
+   you just created.
+   
+   Type "git status" to see the status of your branch. If you've followed the
+   readme up to this point, you should see one modified file (yahtzee.c) and
+   two untracked files (your player.c/h).
+   
+   Type "git add ." to stage these changes. This means that they're changes
+   you want to commit, or keep in the program as it develops.
+   
+   Type "git commit" to commit these changes to your branch. A text editor
+   will open prompting you to describe what you're commiting. This might
+   be something like "Initial commit with my own copy of player template."
+   Please put something meaningful and not stuff like "another commit."
+   Committing the changes makes your changes part of the program... but only
+   in your local branch.
+   
+   (If you're bumfuzzled by the text editor, it's probably vi. Google "vi
+   cheatsheet" for help. You'll need to type "i" to enter insert mode to
+   edit, and ":wq" to close the file saving changes. Also, ":q!" to close
+   the file and abandon your changes is useful to know.)
+   
+   A tutorial in git is beyond the scope here... if you're not familiar with
+   it do some reading. Eventually you'll need to create a pull request to
+   merge your changes.
+
+3. Okey-dokey. Now, to update your own yahtzee player, edit the file
+   yahtzeePlayerMyname.c with your logic to re-roll dice and score your
+   yahtzee game.
 
    The top-level file yahtzee.c prints out some information about each test run
    that may be useful in debugging. You can comment these out if they're not
