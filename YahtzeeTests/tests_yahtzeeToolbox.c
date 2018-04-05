@@ -196,6 +196,22 @@ void Test_RollDice(unsigned int testNum)
     SetDice2(&dice, 0, 0, 0, 0, 0);
     RollDice(&dice, false, true, false, true, false);
     TestAssert_Bool(dice.d1==0 && dice.d2!=0 && dice.d3==0 && dice.d4!=0 && dice.d5==0, true, testNum++);
+
+    // Roll a bunch of dice and make sure you never get a value other than 1-2-3-4-5-6
+    bool allDiceRollsValid = true;
+    for (int i=0; i<1000; i++)
+    {
+        RollDice(&dice, true, true, true, true, true);
+        if ((dice.d1 < 1) || (dice.d1 > 6) ||
+            (dice.d2 < 1) || (dice.d2 > 6) ||
+            (dice.d3 < 1) || (dice.d3 > 6) ||
+            (dice.d4 < 1) || (dice.d4 > 6) ||
+            (dice.d5 < 1) || (dice.d5 > 6))
+        {
+            allDiceRollsValid = false;
+        }
+    }
+    TestAssert_Bool(allDiceRollsValid, true, testNum++);
 }
 
 // Test_GetRankCounts
