@@ -6,4 +6,5 @@
 
 void TestAssert_ErrCode(ScoringErrorType val, ScoringErrorType expectedVal, unsigned int testNum);
 void TestAssert_UInt(unsigned int val, unsigned int expectedVal, unsigned int testNum);
+void TestAssert_Bool(bool val, bool expectedVal, unsigned int testNum);
 int ReportTestResult(bool testPassed, unsigned int testNum);

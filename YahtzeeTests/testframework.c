@@ -62,6 +62,36 @@ void TestAssert_UInt(unsigned int val, unsigned int expectedVal, unsigned int te
     }
 }
 
+// TestAssert_Bool
+// Inputs: two bool values to compare, a test number
+// Outputs: none, but reports its results
+//
+// If the value and expected value are equal, the test passes. If they
+// are not equal, the test fails. A test failure message is printed to
+// stdout, and the failure is reported.
+//
+// A static variable stopTesting allows the reporting routine to signal
+// that a threshold number of tests has failed, and no more tests should
+// be performed. This prevents a broken program from running a huge
+// number of failing tests.
+void TestAssert_Bool(bool val, bool expectedVal, unsigned int testNum)
+{
+    static bool stopTesting = false;
+
+    if (!stopTesting)
+    {
+        if (val == expectedVal)
+        {
+            ReportTestResult(true, testNum);
+        }
+        else
+        {
+            printf("Test %d: expected %d, found %d\n", testNum, expectedVal, val);
+            stopTesting = ReportTestResult(false, testNum);
+        }
+    }
+}
+
 // ReportTestResult
 // Inputs: boolean pass/fail indicator, and the test number
 // Outputs: nonzero to flag that further tests should be halted, 0 otherwise

@@ -7,12 +7,16 @@
 
 #include <stdbool.h>
 #include "yahtzeeTypes.h"
+#include "yahtzeeToolbox.h"
 #include "yahtzeeScorer.h"
 
-// Function prototypes for private functions
-unsigned int SumOfAllDice(const FiveDiceType* dice);
-unsigned int NumOfRank(const FiveDiceType* dice, unsigned int rank);
 
+bool IsThreeOfAKind(const FiveDiceType * dice)  { return (ScoreAsThreeOfAKind(dice)  != 0); }
+bool IsFourOfAKind(const FiveDiceType * dice)   { return (ScoreAsFourOfAKind(dice)   != 0); }
+bool IsFullHouse(const FiveDiceType * dice)     { return (ScoreAsFullHouse(dice)     != 0); }
+bool IsSmallStraight(const FiveDiceType * dice) { return (ScoreAsSmallStraight(dice) != 0); }
+bool IsLargeStraight(const FiveDiceType * dice) { return (ScoreAsLargeStraight(dice) != 0); }
+bool IsYahtzee(const FiveDiceType * dice)       { return (ScoreAsYahtzee(dice)       != 0); }
 
 // ScoreAsTopSection
 // Inputs:  set of five dice, the rank being scored (1's, 2's, 3's, etc..)
@@ -27,17 +31,17 @@ unsigned int ScoreAsTopSection(const FiveDiceType* dice, unsigned int rank)
     unsigned int returnVal = 0;
 
     if (rank == 1)
-        returnVal = NumOfRank(dice, 1);
+        returnVal = HowManyOfRank(dice, 1);
     if (rank == 2)
-        returnVal = 2 * NumOfRank(dice, 2);
+        returnVal = 2 * HowManyOfRank(dice, 2);
     if (rank == 3)
-        returnVal = 3 * NumOfRank(dice, 3);
+        returnVal = 3 * HowManyOfRank(dice, 3);
     if (rank == 4)
-        returnVal = 4 * NumOfRank(dice, 4);
+        returnVal = 4 * HowManyOfRank(dice, 4);
     if (rank == 5)
-        returnVal = 5 * NumOfRank(dice, 5);
+        returnVal = 5 * HowManyOfRank(dice, 5);
     if (rank == 6)
-        returnVal = 6 * NumOfRank(dice, 6);
+        returnVal = 6 * HowManyOfRank(dice, 6);
 
     return returnVal;
 }
@@ -53,12 +57,12 @@ unsigned int ScoreAsTopSection(const FiveDiceType* dice, unsigned int rank)
 unsigned int ScoreAsThreeOfAKind(const FiveDiceType* dice)
 {
 
-    if ((NumOfRank(dice, 1) > 2) ||
-        (NumOfRank(dice, 2) > 2) ||
-        (NumOfRank(dice, 3) > 2) ||
-        (NumOfRank(dice, 4) > 2) ||
-        (NumOfRank(dice, 5) > 2) ||
-        (NumOfRank(dice, 6) > 2))
+    if ((HowManyOfRank(dice, 1) > 2) ||
+        (HowManyOfRank(dice, 2) > 2) ||
+        (HowManyOfRank(dice, 3) > 2) ||
+        (HowManyOfRank(dice, 4) > 2) ||
+        (HowManyOfRank(dice, 5) > 2) ||
+        (HowManyOfRank(dice, 6) > 2))
     {
         return SumOfAllDice(dice);
     }
@@ -78,12 +82,12 @@ unsigned int ScoreAsThreeOfAKind(const FiveDiceType* dice)
 //   Scoring the dice (1-4-4-2-5) --> returns 0
 unsigned int ScoreAsFourOfAKind(const FiveDiceType* dice)
 {
-    if ((NumOfRank(dice, 1) > 3) ||
-        (NumOfRank(dice, 2) > 3) ||
-        (NumOfRank(dice, 3) > 3) ||
-        (NumOfRank(dice, 4) > 3) ||
-        (NumOfRank(dice, 5) > 3) ||
-        (NumOfRank(dice, 6) > 3))
+    if ((HowManyOfRank(dice, 1) > 3) ||
+        (HowManyOfRank(dice, 2) > 3) ||
+        (HowManyOfRank(dice, 3) > 3) ||
+        (HowManyOfRank(dice, 4) > 3) ||
+        (HowManyOfRank(dice, 5) > 3) ||
+        (HowManyOfRank(dice, 6) > 3))
     {
         return SumOfAllDice(dice);
     }
@@ -107,50 +111,50 @@ unsigned int ScoreAsFullHouse(const FiveDiceType* dice)
 {
     bool isFullHouse = false;
 
-    if (NumOfRank(dice, 1) > 2)
+    if (HowManyOfRank(dice, 1) > 2)
     {
-        if ((NumOfRank(dice, 2) > 1) || (NumOfRank(dice, 3) > 1) || (NumOfRank(dice, 4) > 1) ||
-            (NumOfRank(dice, 5) > 1) || (NumOfRank(dice, 6) > 1))
+        if ((HowManyOfRank(dice, 2) > 1) || (HowManyOfRank(dice, 3) > 1) || (HowManyOfRank(dice, 4) > 1) ||
+            (HowManyOfRank(dice, 5) > 1) || (HowManyOfRank(dice, 6) > 1))
         {
             isFullHouse = true;
         }
     }
-    if (NumOfRank(dice, 2) > 2)
+    if (HowManyOfRank(dice, 2) > 2)
     {
-        if ((NumOfRank(dice, 1) > 1) || (NumOfRank(dice, 3) > 1) || (NumOfRank(dice, 4) > 1) ||
-            (NumOfRank(dice, 5) > 1) || (NumOfRank(dice, 6) > 1))
+        if ((HowManyOfRank(dice, 1) > 1) || (HowManyOfRank(dice, 3) > 1) || (HowManyOfRank(dice, 4) > 1) ||
+            (HowManyOfRank(dice, 5) > 1) || (HowManyOfRank(dice, 6) > 1))
         {
             isFullHouse = true;
         }
     }
-    if (NumOfRank(dice, 3) > 2)
+    if (HowManyOfRank(dice, 3) > 2)
     {
-        if ((NumOfRank(dice, 1) > 1) || (NumOfRank(dice, 2) > 1) || (NumOfRank(dice, 4) > 1) ||
-            (NumOfRank(dice, 5) > 1) || (NumOfRank(dice, 6) > 1))
+        if ((HowManyOfRank(dice, 1) > 1) || (HowManyOfRank(dice, 2) > 1) || (HowManyOfRank(dice, 4) > 1) ||
+            (HowManyOfRank(dice, 5) > 1) || (HowManyOfRank(dice, 6) > 1))
         {
             isFullHouse = true;
         }
     }
-    if (NumOfRank(dice, 4) > 2)
+    if (HowManyOfRank(dice, 4) > 2)
     {
-        if ((NumOfRank(dice, 1) > 1) || (NumOfRank(dice, 2) > 1) || (NumOfRank(dice, 3) > 1) ||
-            (NumOfRank(dice, 5) > 1) || (NumOfRank(dice, 6) > 1))
+        if ((HowManyOfRank(dice, 1) > 1) || (HowManyOfRank(dice, 2) > 1) || (HowManyOfRank(dice, 3) > 1) ||
+            (HowManyOfRank(dice, 5) > 1) || (HowManyOfRank(dice, 6) > 1))
         {
             isFullHouse = true;
         }
     }
-    if (NumOfRank(dice, 5) > 2)
+    if (HowManyOfRank(dice, 5) > 2)
     {
-        if ((NumOfRank(dice, 1) > 1) || (NumOfRank(dice, 2) > 1) || (NumOfRank(dice, 3) > 1) ||
-            (NumOfRank(dice, 4) > 1) || (NumOfRank(dice, 6) > 1))
+        if ((HowManyOfRank(dice, 1) > 1) || (HowManyOfRank(dice, 2) > 1) || (HowManyOfRank(dice, 3) > 1) ||
+            (HowManyOfRank(dice, 4) > 1) || (HowManyOfRank(dice, 6) > 1))
         {
             isFullHouse = true;
         }
     }
-    if (NumOfRank(dice, 6) > 2)
+    if (HowManyOfRank(dice, 6) > 2)
     {
-        if ((NumOfRank(dice, 1) > 1) || (NumOfRank(dice, 2) > 1) || (NumOfRank(dice, 3) > 1) ||
-            (NumOfRank(dice, 4) > 1) || (NumOfRank(dice, 5) > 1))
+        if ((HowManyOfRank(dice, 1) > 1) || (HowManyOfRank(dice, 2) > 1) || (HowManyOfRank(dice, 3) > 1) ||
+            (HowManyOfRank(dice, 4) > 1) || (HowManyOfRank(dice, 5) > 1))
         {
             isFullHouse = true;
         }
@@ -174,9 +178,9 @@ unsigned int ScoreAsFullHouse(const FiveDiceType* dice)
 //   Scoring the dice (4-6-3-2-5) --> returns 30
 unsigned int ScoreAsSmallStraight(const FiveDiceType* dice)
 {
-    if (((NumOfRank(dice,1) > 0) && (NumOfRank(dice,2) > 0) && (NumOfRank(dice,3) > 0) && (NumOfRank(dice,4) > 0)) ||
-        ((NumOfRank(dice,2) > 0) && (NumOfRank(dice,3) > 0) && (NumOfRank(dice,4) > 0) && (NumOfRank(dice,5) > 0)) ||
-        ((NumOfRank(dice,3) > 0) && (NumOfRank(dice,4) > 0) && (NumOfRank(dice,5) > 0) && (NumOfRank(dice,6) > 0)))
+    if (((HowManyOfRank(dice,1) > 0) && (HowManyOfRank(dice,2) > 0) && (HowManyOfRank(dice,3) > 0) && (HowManyOfRank(dice,4) > 0)) ||
+        ((HowManyOfRank(dice,2) > 0) && (HowManyOfRank(dice,3) > 0) && (HowManyOfRank(dice,4) > 0) && (HowManyOfRank(dice,5) > 0)) ||
+        ((HowManyOfRank(dice,3) > 0) && (HowManyOfRank(dice,4) > 0) && (HowManyOfRank(dice,5) > 0) && (HowManyOfRank(dice,6) > 0)))
     {
         return 30;
     }
@@ -198,7 +202,7 @@ unsigned int ScoreAsSmallStraight(const FiveDiceType* dice)
 //   Scoring the dice (4-6-3-2-5) --> returns 40
 unsigned int ScoreAsLargeStraight(const FiveDiceType* dice)
 {
-    if ((NumOfRank(dice,2) == 1) && (NumOfRank(dice,3) == 1) && (NumOfRank(dice,4) == 1) && (NumOfRank(dice,5) == 1))
+    if ((HowManyOfRank(dice,2) == 1) && (HowManyOfRank(dice,3) == 1) && (HowManyOfRank(dice,4) == 1) && (HowManyOfRank(dice,5) == 1))
     {
         return 40;
     }
@@ -218,12 +222,12 @@ unsigned int ScoreAsLargeStraight(const FiveDiceType* dice)
 //   Scoring the dice (2-2-2-2-1) --> returns 0
 unsigned int ScoreAsYahtzee(const FiveDiceType* dice)
 {
-    if ((NumOfRank(dice, 1) == 5) ||
-        (NumOfRank(dice, 2) == 5) ||
-        (NumOfRank(dice, 3) == 5) ||
-        (NumOfRank(dice, 4) == 5) ||
-        (NumOfRank(dice, 5) == 5) ||
-        (NumOfRank(dice, 6) == 5))
+    if ((HowManyOfRank(dice, 1) == 5) ||
+        (HowManyOfRank(dice, 2) == 5) ||
+        (HowManyOfRank(dice, 3) == 5) ||
+        (HowManyOfRank(dice, 4) == 5) ||
+        (HowManyOfRank(dice, 5) == 5) ||
+        (HowManyOfRank(dice, 6) == 5))
     {
         return 50;
     }
@@ -239,43 +243,4 @@ unsigned int ScoreAsYahtzee(const FiveDiceType* dice)
 unsigned int ScoreAsChance(const FiveDiceType* dice)
 {
     return SumOfAllDice(dice);
-}
-
-// SumOfAllDice
-// Inputs:  set of five dice
-// Returns: The sum of the five dice
-//
-// Examples:
-//   Scoring the dice (2-2-2-2-2) --> returns 10
-//   Scoring the dice (5-3-4-1-2) --> returns 15
-//   Scoring the dice (6-5-1-6-4) --> returns 22
-unsigned int SumOfAllDice(const FiveDiceType* dice)
-{
-    return (dice->d1 + dice->d2 + dice->d3 + dice->d4 + dice->d5);
-}
-
-// NumOfRank
-// Inputs:  set of five dice
-// Returns: the number of dice with the given rank
-//
-// Examples:
-//   Scoring the dice (2-2-2-2-2) for rank 2 --> returns 5
-//   Scoring the dice (5-3-4-1-2) for rank 1 --> returns 1
-//   Scoring the dice (6-5-1-6-4) for rank 5 --> returns 2
-unsigned int NumOfRank(const FiveDiceType* dice, unsigned int rank)
-{
-    unsigned int count = 0;
-
-    if (dice->d1 == rank)
-        count++;
-    if (dice->d2 == rank)
-        count ++;
-    if (dice->d3 == rank)
-        count++;
-    if (dice->d4 == rank)
-        count++;
-    if (dice->d5 == rank)
-        count++;
-
-    return count;
 }

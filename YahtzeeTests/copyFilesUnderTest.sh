@@ -8,4 +8,6 @@ cp ../Yahtzee/yahtzeeScoreChecker.c yahtzeeScoreChecker.c
 cp ../Yahtzee/yahtzeeScoreChecker.h yahtzeeScoreChecker.h
 cp ../Yahtzee/yahtzeeScorer.c yahtzeeScorer.c
 cp ../Yahtzee/yahtzeeScorer.h yahtzeeScorer.h
+cp ../Yahtzee/yahtzeeToolbox.c yahtzeeToolbox.c
+cp ../Yahtzee/yahtzeeToolbox.h yahtzeeToolbox.h
 cp ../Yahtzee/yahtzeeTypes.h yahtzeeTypes.h

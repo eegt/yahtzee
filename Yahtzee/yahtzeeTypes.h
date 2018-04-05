@@ -24,6 +24,16 @@ typedef struct
 
 typedef struct
 {
+    unsigned int nOnes;
+    unsigned int nTwos;
+    unsigned int nThrees;
+    unsigned int nFours;
+    unsigned int nFives;
+    unsigned int nSixes;
+} DiceCountsType;
+
+typedef struct
+{
     unsigned int ones;
     unsigned int twos;
     unsigned int threes;

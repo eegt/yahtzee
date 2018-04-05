@@ -11,7 +11,6 @@
 #include "yahtzeeTypes.h"
 
 // Function prototypes for routines callable by other modules
-unsigned int GetDiceRoll(void);
 void PrintDiceValues(const FiveDiceType turns[], unsigned int nTurns);
 void PrintResults(const ScoreResultsType * results, int playerNum);
 void InitializeGameResults(ScoreResultsType * results);

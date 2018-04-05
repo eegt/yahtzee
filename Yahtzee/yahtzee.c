@@ -13,7 +13,6 @@
 // Includes in <...> are C standard libraries.
 // These give you functions like print, random number generators, etc.
 #include <stdio.h>
-#include <time.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -30,6 +29,7 @@
 #include "yahtzeeTypes.h"
 #include "yahtzeePlayerTemplate.h"
 #include "yahtzeeScoreChecker.h"
+#include "yahtzeeToolbox.h"
 
 
 //-----------------------------------------------------------------------------
@@ -85,10 +85,6 @@ int main()
     FiveDiceType thirteenTurns[NTURNS];
     ScoreResultsType gameResults;
 
-    // This inititalizaton is required for the random number generator
-    // we use for dice rolls
-    srand((unsigned int)time(NULL));
-
     // Function pointers! An advanced concept.
     // Each player has a pointer to the function s/he'll use to decide
     // what to do with the dice rolls.
@@ -109,11 +105,7 @@ int main()
         // a complete game.
         for (int tt=0; tt<(NTURNS); tt++)
         {
-            thirteenTurns[tt].d1 = GetDiceRoll();
-            thirteenTurns[tt].d2 = GetDiceRoll();
-            thirteenTurns[tt].d3 = GetDiceRoll();
-            thirteenTurns[tt].d4 = GetDiceRoll();
-            thirteenTurns[tt].d5 = GetDiceRoll();
+            RollDice(&thirteenTurns[tt], true, true, true, true, true);
         }
 
         PrintGameDiceValues(thirteenTurns, 13, gg);
@@ -198,14 +190,6 @@ void CalculateTotals(ScoreResultsType * results)
 //-------------------------------------------------------------
 // Public Subroutines
 //-------------------------------------------------------------
-
-// GetDiceRoll
-// Inputs:  none
-// Returns: a randomly chosen integer in the range [1..6]
-unsigned int GetDiceRoll(void)
-{
-    return (rand() % 7) + 1;
-}
 
 // PrintDiceValues
 // Inputs: array of dice values
